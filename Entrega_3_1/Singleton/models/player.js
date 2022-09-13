@@ -1,6 +1,7 @@
-class Player {
+export class Player {
     constructor (name) {
         this.name = name;
+        this.points = 0;
     }
 
     throwTheBall () {
@@ -14,5 +15,9 @@ class Player {
 
     getPoints () {
         return this.points;
+    }
+
+    infoPlayers() {
+
     }
 }

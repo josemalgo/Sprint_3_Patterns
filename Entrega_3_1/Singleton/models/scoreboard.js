@@ -1,19 +1,30 @@
-class Scoreboard {
+export class Scoreboard {
 
     static _instance;
 
-    constructor (namePlayer1, namePlayer2) {
+    constructor () {
         
         if (Scoreboard._instance) {
             return Scoreboard._instance;
         }
 
-        this.pointsPlayer1 = 0;
-        this.pointsPlayer2 = 0;
-        this.namePlayer1 = namePlayer1;
-        this.namePlayer2 = namePlayer2;
-
         Scoreboard._instance = this;
+    }
+
+    start() {
+
+    }
+
+    addPoint () {
+
+    }
+
+    quitPoint () {
+
+    }
+
+    calcWinner () {
+
     }
 
     showResult () {
@@ -22,7 +33,8 @@ class Scoreboard {
         console.log(`${this.pointsPlayer1} - ${this.pointsPlayer2}`);
     }
 
-    start() {
-
+    showWinner (player) {
+        this.showResult();
+        console.log(`El jugador ${player.name} ha ganado la partida!`);
     }
 }

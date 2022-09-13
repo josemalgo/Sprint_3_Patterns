@@ -1,60 +1,66 @@
-class Game {
+export class Game {
 
     constructor () {
-        this.player1 = {};
-        this.player2 = {};
-        this.turn = 0;
-        this.resgisterPlayer();
-        this.drawTurn();
-        this.startMatch();
-    }
-
-    registerPlayers (){
-        let namePlayer = prompt('Introduce el nombre del primer jugador: ' ))
-        this.player1 = new Player(namePlayer);
-        namePlayer = prompt('Introduce el nombre del segundo jugador: ' ))
-        this.player2 = new Player(namePlayer);
-    }
-
-    drawTurn (){
-        if ((Math.floor(Math.random() * 2)) === 0) {
-            this.turn = 0;
-        }
-
-        this.turn = 1;
-
-    }
-
-    startScoreboard () {
+        this.players = [];
+        this.isStartGame = false;
         Scoreboard._instance.start();
     }
 
-    startMatch () {
-        console.log("Comienza el partido!!");
-        for (let i = 0; i < 10; i++) {
-            if(turn === 0) {
-                if(this.scorePoint(this.player1.throwTheBall())) {
-                    this.player1.setPoints();
-                }
-                this.turn++;
-            }
-            else {
-                if(this.scorePoint(this.player2.throwTheBall())) {
-                    this.player2.setPoints();
-                }
-                this.turn--;
-            }
+    registerPlayers (player){
+        //TODO comprobar que no se repitan los jugadores
+        if (this.players.length >= 5) {
+            return;
         }
 
-        console.log("Fin del partido!");
-        console.log(`El resultado final es: ${scoreboard.result()}`);
+        this.players.push(player);
     }
 
-    scorePoint (shoot) {
-        if(shoot === 0) {
-            return false;
+    start () {
+        
+        this.infoGame();
+        
+        for (let player in players) {
+            let attempt = player.throwTheBall();
+            this.scorePoint(player, attempt);
+            //TODO: accesores propiedades y funciones
+        }
+    }
+
+    scorePoint (player, attempt) {
+
+        if (attempt === 0) {
+            console.log('Has fallado!');
+            return;
         }
 
-        return true;
+        console.log('Has acertado!');
+        player.setPoints();
+    }
+
+    updateScoreboard () {
+    
+    }
+
+    checkWinner (player) {
+        return (player.getPoint() === 2);
+    } 
+
+    infoGame () {
+        this.isStartGame = true;
+        console.log("Comienza el partido!!");
+        console.log("Gana el primero que llegue a dos");
+    }
+
+    endGame () {
+        
+        let playerWin = {};
+
+        for (let player in players) {
+            if (player.getPoint() === 2) {
+                playerWin = player;
+            }
+        }
+        Scoreboard._instance.showWinner(playerWin);
+        this.isStartGame = false;
     }
 }
