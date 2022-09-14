@@ -78,7 +78,7 @@ export class Game {
         
         let playerWin = {};
 
-        for (let player in players) {
+        for (let player of this.players) {
             if (player.getPoint() === 2) {
                 playerWin = player;
             }
