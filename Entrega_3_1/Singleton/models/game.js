@@ -1,25 +1,41 @@
+import { Scoreboard } from "./scoreboard.js";
+
 export class Game {
 
     constructor () {
         this.players = [];
         this.isStartGame = false;
-        Scoreboard._instance.start();
+        Scoreboard.getScoreboard().start();
     }
 
-    registerPlayers (player){
+    registerPlayer (player){
         //TODO comprobar que no se repitan los jugadores
         if (this.players.length >= 5) {
-            return;
+            return false;
         }
 
         this.players.push(player);
+        return true;
+    }
+
+    showRegisterPlayers () {
+        console.log('Jugadores registrados');
+
+        if (this.players.length === 0) {
+            console.log("Aún no hay jugadores registrados.");
+            return;
+        };
+
+        for (let player of this.players) {
+            console.log(player.name);
+        }
     }
 
     start () {
         
         this.infoGame();
         
-        for (let player in players) {
+        for (let player of this.players) {
             let attempt = player.throwTheBall();
             this.scorePoint(player, attempt);
             //TODO: accesores propiedades y funciones
@@ -41,8 +57,15 @@ export class Game {
     
     }
 
-    checkWinner (player) {
-        return (player.getPoint() === 2);
+    checkWinner () {
+
+        for (let player of this.players) {
+            if (player.getPoints() === 2) {
+                return true;
+            }
+        }
+
+        return false
     } 
 
     infoGame () {

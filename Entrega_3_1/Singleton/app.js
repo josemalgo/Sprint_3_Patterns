@@ -1,93 +1,82 @@
 import { Player } from './models/player.js';
 import { Game } from './models/game.js';
 import { Scoreboard } from './models/scoreboard.js';
+import readline from 'node:readline';
+import process from 'node:process';
 
-const player1 = new Player(prompt('Introduce el nombre del primer jugador: ' ));
-const player2 = new Player(prompt('Introduce el nombre del segundo jugador: ' ));
-const player3 = new Player(prompt('Introduce el nombre del tercer jugador: ' ));
-const player4 = new Player(prompt('Introduce el nombre del cuarto jugador: ' ));
-const player5 = new Player(prompt('Introduce el nombre del quinto jugador: ' ));
+const players = [
+new Player('Jose'),
+new Player('Jenny'),
+new Player('Meli'),
+new Player('Vane'),
+new Player('JuanMa')];
 
 const game = new Game();
 
-mostrarMenu();
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
 chooseOption();
 
-//TODO cambiar entrada de datos por teclado
-const readline = require('readline').createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  });
-  
-  readline.question(`What's your name?`, name => {
-    console.log(`Hi ${name}!`);
-    readline.close();
-  });
-
-function mostrarMenu () {
-    console.log('+++++++++  Menú  ++++++++++');
-    console.log('1 - Añadir jugador.');
-    console.log("2 - Jugar.")
-    console.log("3 - Marcador.")
-    console.log('4 - Salir.');
+function getMenu() {
+    return `+++++++++  Menú  ++++++++++
+    1 - Añadir jugador.
+    2 - Jugar.
+    3 - Marcador.
+    4 - Ver Jugadores añadidos.
+    5 - Salir.`;
 }
 
-function chooseOption () {
+function chooseOption() {
 
-    while (true) {
-        mostrarMenu();
-        let option = prompt('Escoge una opción: ');
-
-        switch (option) {
-            case 1:
-                addPlayer();
-                break;
-            case 2:
-                game.start()
-                if (game.checkWinner()) {
-                    game.endGame();
-                }
-                break;
-            case 3:
-                Scoreboard._instance.showResult();
-                break;
-            case 4:
-                return;
-            default:
-                console.log('La opción no es valida.');
+    console.log(getMenu());
+    
+    rl.question('Escoge una opción: ', function(answer) {
+        if(+answer === 5) {
+            return rl.close();
         }
-    }
+        execOption(+answer);
+        chooseOption();
+});
 }
 
-function addPlayer () {
-    console.log('+++++++++++  Jugadores  +++++++++++++');
-    console.log(`1 - ${player1}.`);
-    console.log(`2 - ${player2}.`);
-    console.log(`3 - ${player3}.`);
-    console.log(`4 - ${player4}.`);
-    console.log(`5 - ${player5}.`);
-    let option = prompt('Escpoge el jugador que quieres añadir: ');
-
-    switch (option) {
+function execOption(answer) {
+    
+    switch (answer) {
         case 1:
-            game.registerPlayer(player1);
+            addPlayer();
             break;
         case 2:
-            game.registerPlayer(player2);
+            game.start()
+            if (game.checkWinner()) {
+                game.endGame();
+            }
             break;
         case 3:
-            game.registerPlayer(player3);
+            Scoreboard.getScoreboard().showResult();
             break;
         case 4:
-            game.registerPlayer(player4);
-            break;
-        case 5:
-            game.registerPlayer(player5);
-            break;
+            showPlayers();
+            game.showRegisterPlayers();
+            return;
         default:
             console.log('La opción no es valida.');
             return;
-    }
+    };
+}
 
-    console.log('Jugador añadido.');
+function showPlayers () {
+    console.log('Jugadores disponibles');
+    for (let player of players) {
+        console.log(player.name);
+    }
+}
+
+function addPlayer() {
+
+    game.registerPlayer(players[0]);
+    players.shift();
+    
 }

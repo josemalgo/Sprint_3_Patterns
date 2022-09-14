@@ -1,18 +1,22 @@
 export class Scoreboard {
 
-    static _instance;
+    static #instance;
 
     constructor () {
         
-        if (Scoreboard._instance) {
-            return Scoreboard._instance;
-        }
-
-        Scoreboard._instance = this;
     }
 
-    start() {
+    static getScoreboard () {
+        
+        if (Scoreboard.#instance) {
+            return Scoreboard.#instance;
+        }
 
+        return Scoreboard.#instance = new Scoreboard();
+    }
+
+    start () {
+        console.log('Jugadores - puntuación');
     }
 
     addPoint () {
