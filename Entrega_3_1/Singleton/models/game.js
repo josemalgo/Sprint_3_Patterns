@@ -2,13 +2,13 @@ import { Scoreboard } from "./scoreboard.js";
 
 export class Game {
 
-    constructor () {
+    constructor() {
         this.players = [];
         this.isStartGame = false;
         Scoreboard.getScoreboard().start();
     }
 
-    registerPlayer (player){
+    registerPlayer(player) {
         //TODO comprobar que no se repitan los jugadores
         if (this.players.length >= 5) {
             return false;
@@ -18,7 +18,7 @@ export class Game {
         return true;
     }
 
-    showRegisterPlayers () {
+    showRegisterPlayers() {
         console.log('Jugadores registrados');
 
         if (this.players.length === 0) {
@@ -31,10 +31,10 @@ export class Game {
         }
     }
 
-    start () {
-        
+    start() {
+
         this.infoGame();
-        
+
         for (let player of this.players) {
             let attempt = player.throwTheBall();
             this.scorePoint(player, attempt);
@@ -42,7 +42,7 @@ export class Game {
         }
     }
 
-    scorePoint (player, attempt) {
+    scorePoint(player, attempt) {
 
         if (attempt === 0) {
             console.log('Has fallado!');
@@ -53,11 +53,11 @@ export class Game {
         player.setPoints();
     }
 
-    updateScoreboard () {
-    
+    updateScoreboard() {
+
     }
 
-    checkWinner () {
+    checkWinner() {
 
         for (let player of this.players) {
             if (player.getPoints() === 2) {
@@ -66,24 +66,26 @@ export class Game {
         }
 
         return false
-    } 
+    }
 
-    infoGame () {
+    infoGame() {
         this.isStartGame = true;
         console.log("Comienza el partido!!");
         console.log("Gana el primero que llegue a dos");
     }
 
-    endGame () {
-        
+    endGame() {
+
         let playerWin = {};
 
         for (let player of this.players) {
-            if (player.getPoint() === 2) {
+            if (player.getPoints() === 2) {
                 playerWin = player;
+                break;
             }
         }
-        Scoreboard._instance.showWinner(playerWin);
+        Scoreboard.getScoreboard().showResult(this);
+        Scoreboard.getScoreboard().showWinner(playerWin);
         this.isStartGame = false;
     }
 }

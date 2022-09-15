@@ -5,11 +5,11 @@ import readline from 'node:readline';
 import process from 'node:process';
 
 const players = [
-new Player('Jose'),
-new Player('Jenny'),
-new Player('Meli'),
-new Player('Vane'),
-new Player('JuanMa')];
+    new Player('Jose'),
+    new Player('Jenny'),
+    new Player('Meli'),
+    new Player('Vane'),
+    new Player('JuanMa')];
 
 const game = new Game();
 
@@ -32,18 +32,18 @@ function getMenu() {
 function chooseOption() {
 
     console.log(getMenu());
-    
-    rl.question('Escoge una opción: ', function(answer) {
-        if(+answer === 5) {
+
+    rl.question('Escoge una opción: ', function (answer) {
+        if (+answer === 5) {
             return rl.close();
         }
         execOption(+answer);
         chooseOption();
-});
+    });
 }
 
 function execOption(answer) {
-    
+
     switch (answer) {
         case 1:
             addPlayer();
@@ -55,7 +55,7 @@ function execOption(answer) {
             }
             break;
         case 3:
-            Scoreboard.getScoreboard().showResult();
+            Scoreboard.getScoreboard().showResult(game);
             break;
         case 4:
             showPlayers();
@@ -67,7 +67,7 @@ function execOption(answer) {
     };
 }
 
-function showPlayers () {
+function showPlayers() {
     console.log('Jugadores disponibles');
     for (let player of players) {
         console.log(player.name);
@@ -78,5 +78,5 @@ function addPlayer() {
 
     game.registerPlayer(players[0]);
     players.shift();
-    
+
 }

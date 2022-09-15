@@ -2,12 +2,12 @@ export class Scoreboard {
 
     static #instance;
 
-    constructor () {
-        
+    constructor() {
+
     }
 
-    static getScoreboard () {
-        
+    static getScoreboard() {
+
         if (Scoreboard.#instance) {
             return Scoreboard.#instance;
         }
@@ -15,30 +15,30 @@ export class Scoreboard {
         return Scoreboard.#instance = new Scoreboard();
     }
 
-    start () {
+    start() {
         console.log('Jugadores - puntuación');
     }
 
-    addPoint () {
+    addPoint() {
 
     }
 
-    quitPoint () {
+    quitPoint() {
 
     }
 
-    calcWinner () {
+    calcWinner() {
 
     }
 
-    showResult () {
+    showResult(game) {
         console.log("Marcador");
-        console.log(`${this.namePlayer1} - ${this.namePlayer2}`);
-        console.log(`${this.pointsPlayer1} - ${this.pointsPlayer2}`);
+        for (let player of game.players) {
+            console.log(`${player.name} - ${player.getPoints()}`);
+        }
     }
 
-    showWinner (player) {
-        this.showResult();
+    showWinner(player) {
         console.log(`El jugador ${player.name} ha ganado la partida!`);
     }
 }
