@@ -13,6 +13,7 @@ export class Theme extends EventEmitter {
 
     addSubscriber(user) {
         this.subscribers.push(user);
+        user.addTheme(this);
         this.emit('subscriberAdded', user);
     }
 
@@ -22,11 +23,14 @@ export class Theme extends EventEmitter {
 
     addMessage(message) {
         this.messages.push(message);
-        this.emit("messageAdded", user);
-        // TODO ver que pasarle al emit
+        this.emit("messageAddedOnTheme", this);
     }
 
-    notifyMessageAdded() {
-        this.emit()
+    notifySubsMessageAdded() {
+        let lastMessage = this.messages[this.messages.length -1];
+
+        for (let sub of this.subscribers) {
+            this.emit("notifyUsersMessageAdded", sub, lastMessage);
+        }
     }
 }

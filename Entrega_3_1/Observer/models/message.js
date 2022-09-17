@@ -2,8 +2,9 @@ import { User } from './user.js';
 
 export class Message {
     
-    constructor(user, text) {
+    constructor(user, theme, text) {
         this.user = user;
+        this.theme = theme
         this.text = text;
     }
 
