@@ -1,18 +1,8 @@
 const Middleware = require('./middleware');
 const numbers = require('./numbers.json');
 
-function Maths {
-  add(req) {
-    return req.a + req.b;
-  }
-  
-  substract(req) {
-    return req.a - req.b;
-  }
-  
-  multiply(req) {
-    return req.a * req.b;
-  }
+function Maths() {
+
 }
 
 Maths.prototype.add = function(req) {
